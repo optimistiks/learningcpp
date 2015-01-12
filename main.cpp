@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include "geometry.h"
 
 PointArray::PointArray() {
@@ -67,25 +68,14 @@ const PointArray *const Polygon::getPoints() const {
     return &(this->points);
 };
 
+double Rectangle::area() const {
+    int width = this->getPoints()->get(0)->getX() - this->getPoints()->get(1)->getX();
+    int height = this->getPoints()->get(0)->getY() - this->getPoints()->get(3)->getY();
+    return double(std::abs(width * height));
+}
+
 int main() {
-    Point points[3] = {Point(1, 2), Point(3, 4), Point(5, 6)};
-    PointArray arr = PointArray(points, 3);
-
-/*    for (int i = 0; i != 3; ++i) {
-        std::cout << arr.get(i)->getX() << std::endl;
-    }*/
-
-    Point p(7, 2);
-
-    arr.insert(2, p);
-
-/*    for (int i = 0; i != 4; ++i) {
-        std::cout << arr.get(i)->getX() << std::endl;
-        std::cout << arr.getSize() << std::endl;
-    }*/
-
-    Polygon poly(arr);
-    const PointArray *parr = poly.getPoints();
-
+    Rectangle rec(Point(1, 2), Point(3, 4));
+    std::cout << rec.area() << std::endl;
     return 0;
 }

@@ -106,7 +106,34 @@ public:
     }
 
     virtual double area() const = 0;
+
     int getNumPolygons() const;
+
     int getNumSides() const;
-    const PointArray * const getPoints() const;
+
+    const PointArray *const getPoints() const;
 };
+
+Point constructorPoints[4];
+
+Point *updateConstructorPoints(const Point &p1, const Point &p2, const Point &p3, const Point &p4 = Point(0, 0)) {
+    constructorPoints[0] = p1;
+    constructorPoints[1] = p2;
+    constructorPoints[2] = p3;
+    constructorPoints[3] = p4;
+    return constructorPoints;
+}
+
+class Rectangle : public Polygon {
+public:
+    Rectangle(const Point lowerLeft, const Point upperRight)
+            : Polygon(updateConstructorPoints(lowerLeft, Point(upperRight.getX(), lowerLeft.getY()), upperRight, Point(lowerLeft.getX(), upperRight.getY())), 4) {
+    }
+
+    Rectangle(const int x, const int y, const int a, const int b)
+            : Polygon(updateConstructorPoints(Point(x, y), Point(a, y), Point(a, b), Point(x, b)), 4) {
+    }
+
+    double area() const;
+};
+
