@@ -137,3 +137,8 @@ public:
     double area() const;
 };
 
+class Triangle : public Polygon {
+public:
+    Triangle(const Point first, const Point second, const Point third) : Polygon(updateConstructorPoints(first, second, third), 3) {}
+    double area() const;
+};

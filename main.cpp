@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <string>
 #include "geometry.h"
 
 PointArray::PointArray() {
@@ -74,8 +75,43 @@ double Rectangle::area() const {
     return double(std::abs(width * height));
 }
 
+double Triangle::area() const {
+    double a = double(std::sqrt(std::pow(this->getPoints()->get(1)->getX() - this->getPoints()->get(0)->getX(), 2) + std::pow(this->getPoints()->get(1)->getY() - this->getPoints()->get(0)->getY(), 2)));
+    double b = double(std::sqrt(std::pow(this->getPoints()->get(2)->getX() - this->getPoints()->get(1)->getX(), 2) + std::pow(this->getPoints()->get(2)->getY() - this->getPoints()->get(1)->getY(), 2)));
+    double c = double(std::sqrt(std::pow(this->getPoints()->get(2)->getX() - this->getPoints()->get(0)->getX(), 2) + std::pow(this->getPoints()->get(2)->getY() - this->getPoints()->get(0)->getY(), 2)));
+    double s = (a + b + c) / 2;
+    double k = std::sqrt(s * (s - a) * (s - b) * (s - c));
+    return k;
+}
+
+void printAttributes(Polygon * poly) {
+    std::cout << "Area of the polygon = " << (*poly).area() << std::endl;
+    Point const *p;
+    std::cout << "Points: ";
+    for (int i = 0; i != poly->getPoints()->getSize(); ++i) {
+        p = poly->getPoints()->get(i);
+        std::cout << p->getX() << ',' << p->getY() << ' ';
+    }
+    std::cout << std::endl;
+}
+
+const std::string vowels = "eyuioa";
+const std::string ay = "ay";
+
+std::string pigLatinify(std::string const str) {
+    std::string result;
+    if (vowels.find(str[0]) == std::string::npos) {
+        result = str.substr(1);
+        result += (std::string("-") + str[0] + (str[0] != 'q' ? "" : "u")) + ay;
+    } else {
+        result = str + "-w" + ay;
+    }
+    return result;
+}
+
 int main() {
-    Rectangle rec(Point(1, 2), Point(3, 4));
-    std::cout << rec.area() << std::endl;
+    std::string input;
+    std::cin >> input;
+    std::cout << pigLatinify(input);
     return 0;
 }
